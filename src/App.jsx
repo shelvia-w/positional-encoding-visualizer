@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { Waves, Zap, Settings } from "lucide-react";
+import { Waves, Settings } from "lucide-react";
 
 export default function PositionalEncodingVisualizer() {
   const [seqLen, setSeqLen] = useState(150);
@@ -11,10 +11,7 @@ export default function PositionalEncodingVisualizer() {
   const [base, setBase] = useState(10000);
   const [highlightPos, setHighlightPos] = useState(149);
   const darkMode = true;
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [animationSpeed, setAnimationSpeed] = useState(0.02);
-  const animationRef = useRef(null);
-  const timeRef = useRef(0);
+
 
   // Propagate dark theme to document
   useEffect(() => {
@@ -22,25 +19,7 @@ export default function PositionalEncodingVisualizer() {
     root.classList.add("dark");
   }, []);
 
-  // Animation loop
-  useEffect(() => {
-    if (isAnimating) {
-      const animate = () => {
-        timeRef.current += animationSpeed;
-        setHighlightPos(() => {
-          const newPos = Math.floor((Math.sin(timeRef.current) * 0.5 + 0.5) * (seqLen - 1));
-          return Math.max(0, Math.min(seqLen - 1, newPos));
-        });
-        animationRef.current = requestAnimationFrame(animate);
-      };
-      animationRef.current = requestAnimationFrame(animate);
-    } else {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    }
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
-  }, [isAnimating, animationSpeed, seqLen]);
+
 
   const LINE_WIDTH = 2.5;
   const SAMPLES_PER_TOKEN = 10;
@@ -54,10 +33,10 @@ export default function PositionalEncodingVisualizer() {
 
   const clampedHighlight = Math.max(0, Math.min(seqLen - 1, highlightPos));
 
-  // Layout paddings/metrics
-  const rowHeight = 60;
-  const rowGap = 16;
-  const padLeft = 80;
+  // Layout paddings/metrics - improved spacing
+  const rowHeight = 40; // Increased from 60
+  const rowGap = 24; // Increased from 16
+  const padLeft = 200; // Increased from 80
 
   // Measure the live container (fills the screen)
   const chartContainerRef = useRef(null);
@@ -91,18 +70,18 @@ export default function PositionalEncodingVisualizer() {
     for (const p of selectedPairs) {
       longest = Math.max(longest, labelLen(p, "sin"), labelLen(p, "cos"));
     }
-    const approxCharWidth = 6.5;
-    return Math.max(220, Math.ceil(longest * approxCharWidth + 30));
+    const approxCharWidth = 7.5; // Increased character width estimation
+    return Math.max(350, Math.ceil(longest * approxCharWidth + 60)); // Much more padding
   }, [selectedPairs, base, dModel]);
 
-  const padTop = 30;
-  const padBottom = 40;
+  const padTop = 40; // Increased from 30
+  const padBottom = 50; // Increased from 40
 
   // Chart dimensions adapt to the container width/height
   const rowsCount = pairsToDraw * 2;
-  const chartWidth = Math.max(300, containerSize.w - padLeft - padRight);
+  const chartWidth = Math.max(400, (containerSize.w - padLeft - padRight)*0.9); // Increased minimum
   const chartHeight = rowsCount * (rowHeight + rowGap) - rowGap;
-  const svgWidth = padLeft + chartWidth + padRight;
+  const svgWidth = containerSize.w;
   const svgHeight = padTop + chartHeight + padBottom;
 
   const tokenStep = chartWidth / Math.max(1, seqLen - 1);
@@ -124,7 +103,7 @@ export default function PositionalEncodingVisualizer() {
     for (const pair of selectedPairs) {
       const exponent = (2 * pair) / dModel;
       const denom = Math.pow(base, exponent);
-      const amp = (rowHeight / 2) * 0.85;
+      const amp = (rowHeight / 2) * 0.75; // Reduced amplitude for better spacing
 
       const sinIndex = rowsOut.length;
       const sinCenter = padTop + sinIndex * (rowHeight + rowGap) + rowHeight / 2;
@@ -161,7 +140,6 @@ export default function PositionalEncodingVisualizer() {
 
   const svgRef = useRef(null);
   function handleMouseMove(e) {
-    if (isAnimating) return;
     const svg = svgRef.current; if (!svg) return;
     const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
     const ctm = svg.getScreenCTM(); if (!ctm) return;
@@ -188,52 +166,48 @@ export default function PositionalEncodingVisualizer() {
   const highlightLine = "#a855f7";
 
   return (
-    <div className={`h-screen w-screen transition-all duration-700 ${bgGradient}`}>
-      {/* Header fixed height */}
-      <header className={`${headerBg} shadow-lg h-16`}>
-        <div className="h-full container mx-auto max-w-none flex justify-between items-center px-4">
-          <div className="flex gap-3 items-center">
-            <div className="p-2 rounded-full bg-purple-500/20 backdrop-blur-sm">
-              <Waves className="w-6 h-6 text-purple-400" />
+    <div className={`min-h-screen w-screen transition-all duration-700 ${bgGradient}`}>
+      {/* Header with increased height for better text visibility */}
+      <header className={`${headerBg} shadow-lg h-32`}>
+        <div className="h-full container mx-auto max-w-none flex justify-between items-center px-8">
+          <div className="flex gap-5 items-center">
+            <div className="p-4 rounded-full bg-purple-500/20 backdrop-blur-sm">
+              <Waves className="w-8 h-8 text-purple-400" />
             </div>
-            <div>
-              <h1 className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <div className="space-y-2 flex-1">
+              <h1 
+                className="font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight"
+                style={{ fontSize: '30px', lineHeight: '1.2' }}
+              >
                 Sinusoidal Positional Encoding
               </h1>
-              <p className="text-xs text-purple-300">
+              <p 
+                className="text-purple-300 leading-relaxed"
+                style={{ fontSize: '20px', lineHeight: '1.3' }}
+              >
                 Interactive visualization of transformer position embeddings
               </p>
             </div>
           </div>
-
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsAnimating(!isAnimating)}
-            className={`hover:bg-slate-800 transition-colors ${isAnimating ? "text-purple-400" : ""}`}
-          >
-            <Zap className={`w-4 h-4 ${isAnimating ? "animate-pulse" : ""}`} />
-            {isAnimating ? "Stop" : "Animate"}
-          </Button>
         </div>
       </header>
 
-      {/* Main fills the rest of the screen */}
-      <main className="h-[calc(100vh-4rem)] w-full flex flex-col gap-4 p-4">
-        {/* Controls (auto height) */}
-        <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit`}>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg justify-center">
-              <Settings className="w-4 h-4 text-purple-400" />
-              Controls
+      {/* Main fills the rest of the screen with adjusted spacing for larger header */}
+      <main className="w-full flex flex-col gap-4 p-4">
+        {/* Controls with reduced vertical spacing */}
+        <Card className={`${cardBg} rounded-xl shadow-xl border h-fit`}>
+          <CardHeader className="pb-1 py-1">
+            <CardTitle className="flex items-center gap-3 text-2xl justify-center">
+              <Settings className="w-5 h-5 text-purple-400" />
+              <span>Controls</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <CardContent className="space-y-1 pb-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="space-y-2">
-                <Label className="text-xs font-medium flex justify-between">
+                <Label className="text-lg font-medium flex justify-between items-center">
                   <span>Sequence Length</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
+                  <span className="px-3 py-1.5 rounded-md text-lg bg-slate-800 text-purple-400 font-mono min-w-[3rem] text-center">
                     {seqLen}
                   </span>
                 </Label>
@@ -248,9 +222,9 @@ export default function PositionalEncodingVisualizer() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-medium flex justify-between">
+                <Label className="text-lg font-medium flex justify-between items-center">
                   <span>Model Dimension (d)</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
+                  <span className="px-3 py-1.5 rounded-md text-lg bg-slate-800 text-pink-400 font-mono min-w-[3rem] text-center">
                     {dModel}
                   </span>
                 </Label>
@@ -265,9 +239,9 @@ export default function PositionalEncodingVisualizer() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-medium flex justify-between">
+                <Label className="text-lg font-medium flex justify-between items-center">
                   <span>Base Constant</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-orange-400 font-mono">
+                  <span className="px-3 py-1.5 rounded-md text-lg bg-slate-800 text-orange-400 font-mono min-w-[4rem] text-center">
                     {base.toLocaleString()}
                   </span>
                 </Label>
@@ -282,9 +256,9 @@ export default function PositionalEncodingVisualizer() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-medium flex justify-between">
-                  <span>Highlight Position</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
+                <Label className="text-lg font-medium flex justify-between items-center">
+                  <span>Token Position</span>
+                  <span className="px-3 py-1.5 rounded-md text-lg bg-slate-800 text-purple-400 font-mono min-w-[3rem] text-center">
                     {clampedHighlight}
                   </span>
                 </Label>
@@ -293,65 +267,49 @@ export default function PositionalEncodingVisualizer() {
                   min={0}
                   max={seqLen - 1}
                   step={1}
-                  onValueChange={(v) => !isAnimating && setHighlightPos(v[0])}
-                  disabled={isAnimating}
+                  onValueChange={(v) => setHighlightPos(v[0])}
                   className="py-1"
                 />
               </div>
             </div>
 
-            {isAnimating && (
-              <div className="mt-4 space-y-2 max-w-md mx-auto">
-                <Label className="text-xs font-medium flex justify-between">
-                  <span>Animation Speed</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
-                    {animationSpeed.toFixed(3)}
-                  </span>
-                </Label>
-                <Slider
-                  value={[animationSpeed]}
-                  min={0.005}
-                  max={0.1}
-                  step={0.005}
-                  onValueChange={(v) => setAnimationSpeed(v[0])}
-                  className="py-1"
-                />
-              </div>
-            )}
-
-            <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border-l-4 border-l-purple-500 max-w-md mx-auto">
-              <p className="text-xs text-slate-300 leading-relaxed text-center">
-                <span className="font-semibold">Showing 4 frequency pairs</span>.
-                <span className="font-semibold"> Indices:</span> {selectedPairs.join(", ")}.
-                <span className="font-semibold"> Position:</span> {clampedHighlight}
+            <div className="mt-10 p-3 rounded-lg bg-slate-800/50 border-l-4 border-l-purple-500 max-w-lg mx-auto">
+              <p className="text-lg text-slate-300 leading-relaxed text-center">
+                <span className="block mb-1">
+                  <span className="font-semibold text-purple-300">Showing 4 frequency pairs</span>
+                </span>
+                <span className="block">
+                  <span className="font-semibold text-blue-300">Indices:</span> {selectedPairs.join(", ")}
+                  <span className="ml-4 font-semibold text-pink-300">Position:</span> {clampedHighlight}
+                </span>
               </p>
             </div>
           </CardContent>
         </Card>
 
-        {/* Chart fills the remaining space */}
-        <Card className={`${cardBg} rounded-2xl shadow-2xl border flex-1 flex flex-col overflow-hidden`}>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-              Encoding Waves
-              <div className="ml-auto text-sm font-normal text-purple-300">
-                Pos {clampedHighlight}
+        {/* Chart fills the remaining space with improved spacing */}
+        <Card className={`${cardBg} rounded-2xl shadow-2xl border flex-1 flex flex-col overflow-hidden min-h-0`}>
+          <CardHeader className="pb-1 py-1">
+            <CardTitle className="flex items-center gap-3 text-2xl px-2">
+              <div className="w-3 h-3 rounded-full bg-purple-400 animate-pulse" />
+              <span>Encoding Waves</span>
+              <div className="ml-auto text-base font-normal text-purple-300 bg-slate-800/50 px-3 py-1.5 rounded-lg">
+                Position {clampedHighlight}
               </div>
             </CardTitle>
           </CardHeader>
 
-          <CardContent className="p-0 flex-1 flex">
-            {/* This container is what we observe and stretch to the viewport */}
-            <div ref={chartContainerRef} className="flex-1 overflow-auto">
+          <CardContent className="p-0 flex-1 flex min-h-0">
+            {/* Chart container with horizontal scrolling capability */}
+            <div ref={chartContainerRef} className="flex-1 overflow-x-auto overflow-y-auto min-h-0 w-full">
               <svg
                 ref={svgRef}
-                // Scale to container; content is computed from containerSize
-                width={containerSize.w}
-                height={Math.max(containerSize.h, svgHeight)}
+                width="100%"
+                height={svgHeight}
                 viewBox={`0 0 ${svgWidth} ${svgHeight}`}
                 onMouseMove={handleMouseMove}
-                className="w-full h-full cursor-crosshair transition-all duration-200 hover:drop-shadow-lg"
+                className="cursor-crosshair transition-all duration-200 hover:drop-shadow-lg"
+                style={{ minWidth: `${svgWidth}px`, minHeight: `${svgHeight}px` }}
               >
                 <defs>
                   {/* Wave gradients */}
@@ -366,9 +324,9 @@ export default function PositionalEncodingVisualizer() {
                   </linearGradient>
                 </defs>
 
-                <rect width={svgWidth} height={svgHeight} fill={canvasBg} />
+                <rect width={svgWidth} height={svgHeight} fill={canvasBg} rx="12" />
 
-                {/* Grid */}
+                {/* Grid with improved spacing */}
                 <g opacity="0.6">
                   {Array.from({ length: rowsCount + 1 }, (_, i) => {
                     const y = padTop + (i * chartHeight) / rowsCount;
@@ -385,11 +343,11 @@ export default function PositionalEncodingVisualizer() {
                         />
                         {i < rows.length && (
                           <text
-                            x={padLeft - 10}
-                            y={rows[i]?.centerY + 4 || y}
+                            x={padLeft - 20}
+                            y={rows[i]?.centerY + 5 || y}
                             textAnchor="end"
                             fill={textColor}
-                            fontSize="12"
+                            fontSize="18"
                             fontWeight="600"
                             fontFamily="ui-monospace, monospace"
                           >
@@ -425,12 +383,12 @@ export default function PositionalEncodingVisualizer() {
                   y1={padTop}
                   y2={padTop + chartHeight}
                   stroke={highlightLine}
-                  strokeWidth={2.5}
-                  strokeDasharray="6 8"
+                  strokeWidth={3}
+                  strokeDasharray="8 6"
                   opacity={0.8}
                 />
 
-                {/* Waves */}
+                {/* Waves with improved spacing */}
                 {rows.map((row, idx) => (
                   <g key={idx}>
                     <path
@@ -447,15 +405,17 @@ export default function PositionalEncodingVisualizer() {
                     <circle
                       cx={highlightX}
                       cy={row.yAtHighlight}
-                      r={4}
+                      r={5}
                       fill={row.kind === "sin" ? waveSinEnd : waveCosEnd}
+                      stroke="rgba(255,255,255,0.3)"
+                      strokeWidth={1}
                     />
 
-                    {/* Labels */}
+                    {/* Labels with improved spacing and text wrapping */}
                     <text
-                      x={padLeft + chartWidth + 15}
-                      y={row.centerY + 4}
-                      className="text-xs font-medium"
+                      x={padLeft + chartWidth + 25}
+                      y={row.centerY + 2}
+                      className="text-lg font-medium"
                       fill={textColor}
                       style={{ fontFamily: "ui-monospace, monospace" }}
                     >
@@ -463,9 +423,9 @@ export default function PositionalEncodingVisualizer() {
                     </text>
 
                     <text
-                      x={padLeft + chartWidth + 15}
-                      y={row.centerY + 18}
-                      className="text-xs"
+                      x={padLeft + chartWidth + 25}
+                      y={row.centerY + 20}
+                      className="text-lg"
                       fill="#94a3b8"
                       style={{ fontFamily: "ui-monospace, monospace" }}
                     >
