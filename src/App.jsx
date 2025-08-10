@@ -299,11 +299,9 @@ export default function PositionalEncodingVisualizer() {
             
             <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border-l-3 border-l-purple-500 max-w-md mx-auto">
               <p className="text-xs text-slate-300 leading-relaxed text-center">
-                <span className="font-semibold">Showing 4 frequency pairs</span>
-                <br/>
-                <span className="font-semibold">Indices:</span> {selectedPairs.join(", ")}
-                <br/>
-                <span className="font-semibold">Position:</span> {clampedHighlight}
+                <span className="font-semibold">Showing 4 frequency pairs</span>.
+                <span className="font-semibold"> Indices:</span> {selectedPairs.join(", ")}
+                <span className="font-semibold"> Position:</span> {clampedHighlight}
               </p>
             </div>
           </CardContent>
