@@ -168,289 +168,291 @@ export default function PositionalEncodingVisualizer() {
 
   return (
     <div className={`min-h-screen w-full transition-all duration-700 ${bgGradient}`}>
+      <div className="mx-auto w-full max-w-screen-xl px-4">
 
-      <header className={`${headerBg} shadow-lg`}>
-        <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
-          <div className="flex gap-3 items-center">
-            <div className="p-2 rounded-full bg-purple-500/20 backdrop-blur-sm">
-              <Waves className="w-6 h-6 text-purple-400" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Sinusoidal Positional Encoding
-              </h1>
-              <p className="text-xs text-purple-300">
-                Interactive visualization of transformer position embeddings
-              </p>
-            </div>
-          </div>
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsAnimating(!isAnimating)}
-            className={`hover:bg-slate-800 transition-colors ${isAnimating ? 'text-purple-400' : ''}`}
-          >
-            <Zap className={`w-4 h-4 ${isAnimating ? 'animate-pulse' : ''}`} />
-            {isAnimating ? 'Stop' : 'Animate'}
-          </Button>
-        </div>
-      </header>
-
-      <main className="p-4 flex justify-center">
-        <div className="w-full max-w-6xl">
-          <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit mb-4`}>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg justify-center">
-              <Settings className="w-4 h-4 text-purple-400" />
-              Controls
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label className="text-xs font-medium flex justify-between">
-                  <span>Sequence Length</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
-                    {seqLen}
-                  </span>
-                </Label>
-                <Slider 
-                  value={[seqLen]} 
-                  min={8} 
-                  max={4096} 
-                  step={1} 
-                  onValueChange={(v) => setSeqLen(v[0])}
-                  className="py-1"
-                />
+        <header className={`${headerBg} shadow-lg`}>
+          <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
+            <div className="flex gap-3 items-center">
+              <div className="p-2 rounded-full bg-purple-500/20 backdrop-blur-sm">
+                <Waves className="w-6 h-6 text-purple-400" />
               </div>
-              
-              <div className="space-y-2">
-                <Label className="text-xs font-medium flex justify-between">
-                  <span>Model Dimension (d)</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
-                    {dModel}
-                  </span>
-                </Label>
-                <Slider 
-                  value={[dModel]} 
-                  min={10} 
-                  max={1024} 
-                  step={2} 
-                  onValueChange={(v) => setDModel(v[0])}
-                  className="py-1"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label className="text-xs font-medium flex justify-between">
-                  <span>Base Constant</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-orange-400 font-mono">
-                    {base.toLocaleString()}
-                  </span>
-                </Label>
-                <Slider 
-                  value={[base]} 
-                  min={10} 
-                  max={100000} 
-                  step={10} 
-                  onValueChange={(v) => setBase(v[0])}
-                  className="py-1"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label className="text-xs font-medium flex justify-between">
-                  <span>Highlight Position</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
-                    {clampedHighlight}
-                  </span>
-                </Label>
-                <Slider 
-                  value={[clampedHighlight]} 
-                  min={0} 
-                  max={seqLen - 1} 
-                  step={1} 
-                  onValueChange={(v) => !isAnimating && setHighlightPos(v[0])}
-                  disabled={isAnimating}
-                  className="py-1"
-                />
+              <div>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  Sinusoidal Positional Encoding
+                </h1>
+                <p className="text-xs text-purple-300">
+                  Interactive visualization of transformer position embeddings
+                </p>
               </div>
             </div>
-
-            {isAnimating && (
-              <div className="mt-4 space-y-2 max-w-md mx-auto">
-                <Label className="text-xs font-medium flex justify-between">
-                  <span>Animation Speed</span>
-                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
-                    {animationSpeed.toFixed(3)}
-                  </span>
-                </Label>
-                <Slider 
-                  value={[animationSpeed]} 
-                  min={0.005} 
-                  max={0.1} 
-                  step={0.005} 
-                  onValueChange={(v) => setAnimationSpeed(v[0])}
-                  className="py-1"
-                />
-              </div>
-            )}
             
-            <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border-l-3 border-l-purple-500 max-w-md mx-auto">
-              <p className="text-xs text-slate-300 leading-relaxed text-center">
-                <span className="font-semibold">Showing 4 frequency pairs</span>.
-                <span className="font-semibold"> Indices:</span> {selectedPairs.join(", ")}
-                <span className="font-semibold"> Position:</span> {clampedHighlight}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsAnimating(!isAnimating)}
+              className={`hover:bg-slate-800 transition-colors ${isAnimating ? 'text-purple-400' : ''}`}
+            >
+              <Zap className={`w-4 h-4 ${isAnimating ? 'animate-pulse' : ''}`} />
+              {isAnimating ? 'Stop' : 'Animate'}
+            </Button>
+          </div>
+        </header>
 
-          <Card className={`${cardBg} rounded-2xl shadow-2xl border overflow-hidden`}>
+        <main className="p-4 flex justify-center">
+          <div className="w-full max-w-6xl">
+            <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit mb-4`}>
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lg justify-center">
-                <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-                Encoding Waves
-                <div className="ml-auto text-sm font-normal text-purple-300">
-                  Pos {clampedHighlight}
-                </div>
+                <Settings className="w-4 h-4 text-purple-400" />
+                Controls
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-0 flex justify-center">
-              <div className="overflow-x-auto">
-              <svg 
-                ref={svgRef} 
-                width={svgWidth} 
-                height={svgHeight} 
-                onMouseMove={handleMouseMove}
-                className="cursor-crosshair transition-all duration-200 hover:drop-shadow-lg"
-              >
-                <defs>
-                  {/* Wave gradients */}
-                  <linearGradient id="sin-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor={waveSinStart} />
-                    <stop offset="100%" stopColor={waveSinEnd} />
-                  </linearGradient>
-                  
-                  <linearGradient id="cos-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor={waveCosStart} />
-                    <stop offset="100%" stopColor={waveCosEnd} />
-                  </linearGradient>
-                </defs>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="text-xs font-medium flex justify-between">
+                    <span>Sequence Length</span>
+                    <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
+                      {seqLen}
+                    </span>
+                  </Label>
+                  <Slider 
+                    value={[seqLen]} 
+                    min={8} 
+                    max={4096} 
+                    step={1} 
+                    onValueChange={(v) => setSeqLen(v[0])}
+                    className="py-1"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label className="text-xs font-medium flex justify-between">
+                    <span>Model Dimension (d)</span>
+                    <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
+                      {dModel}
+                    </span>
+                  </Label>
+                  <Slider 
+                    value={[dModel]} 
+                    min={10} 
+                    max={1024} 
+                    step={2} 
+                    onValueChange={(v) => setDModel(v[0])}
+                    className="py-1"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label className="text-xs font-medium flex justify-between">
+                    <span>Base Constant</span>
+                    <span className="px-2 py-1 rounded text-xs bg-slate-800 text-orange-400 font-mono">
+                      {base.toLocaleString()}
+                    </span>
+                  </Label>
+                  <Slider 
+                    value={[base]} 
+                    min={10} 
+                    max={100000} 
+                    step={10} 
+                    onValueChange={(v) => setBase(v[0])}
+                    className="py-1"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label className="text-xs font-medium flex justify-between">
+                    <span>Highlight Position</span>
+                    <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
+                      {clampedHighlight}
+                    </span>
+                  </Label>
+                  <Slider 
+                    value={[clampedHighlight]} 
+                    min={0} 
+                    max={seqLen - 1} 
+                    step={1} 
+                    onValueChange={(v) => !isAnimating && setHighlightPos(v[0])}
+                    disabled={isAnimating}
+                    className="py-1"
+                  />
+                </div>
+              </div>
 
-                <rect width={svgWidth} height={svgHeight} fill={canvasBg} />
-
-                {/* Enhanced grid */}
-                <g opacity="0.6">
-                  {Array.from({ length: rowsCount + 1 }, (_, i) => {
-                    const y = padTop + (i * chartHeight) / rowsCount;
-                    return (
-                      <g key={`h-${i}`}>
-                        <line 
-                          x1={padLeft} 
-                          x2={padLeft + chartWidth} 
-                          y1={y} 
-                          y2={y} 
-                          stroke={i % 2 === 0 ? axisColor : gridColor} 
-                          strokeWidth={i % 2 === 0 ? 1.5 : 1}
-                          opacity={i % 2 === 0 ? 1 : 0.5}
-                        />
-                        {i < rows.length && (
-                          <text 
-                            x={padLeft - 10} 
-                            y={rows[i]?.centerY + 4 || y} 
-                            textAnchor="end" 
-                            fill={textColor} 
-                            fontSize="12"
-                            fontWeight="600"
-                            fontFamily="monospace"
-                          >
-                            {rows[i] ? `${rows[i].valAtHighlight >= 0 ? "+" : ""}${rows[i].valAtHighlight.toFixed(2)}` : ""}
-                          </text>
-                        )}
-                      </g>
-                    );
-                  })}
-                  {Array.from({ length: 9 }, (_, i) => {
-                    const x = padLeft + (i * chartWidth) / 8;
-                    return (
-                      <line 
-                        key={`v-${i}`} 
-                        x1={x} 
-                        x2={x} 
-                        y1={padTop} 
-                        y2={padTop + chartHeight} 
-                        stroke={gridColor} 
-                        strokeWidth={1}
-                        opacity={0.3}
-                      />
-                    );
-                  })}
-                </g>
-
-                {/* Highlight line */}
-                <line
-                  x1={highlightX}
-                  x2={highlightX}
-                  y1={padTop}
-                  y2={padTop + chartHeight}
-                  stroke={highlightLine}
-                  strokeWidth={2.5}
-                  strokeDasharray="6 8"
-                  opacity={0.8}
-                />
-
-                {/* Wave paths with gradients */}
-                {rows.map((row, idx) => (
-                  <g key={idx}>
-                    <path
-                      d={row.path}
-                      fill="none"
-                      stroke={row.kind === "sin" ? "url(#sin-gradient)" : "url(#cos-gradient)"}
-                      strokeWidth={LINE_WIDTH}
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      opacity={0.9}
-                    />
-                    
-                    {/* Static highlight point */}
-                    <circle
-                      cx={highlightX}
-                      cy={row.yAtHighlight}
-                      r={4}
-                      fill={row.kind === "sin" ? waveSinEnd : waveCosEnd}
-                    />
-                    
-                    {/* Enhanced labels */}
-                    <text 
-                      x={padLeft + chartWidth + 15} 
-                      y={row.centerY + 4} 
-                      className="text-xs font-medium"
-                      fill={textColor}
-                      style={{ fontFamily: 'ui-monospace, monospace' }}
-                    >
-                      {row.label}
-                    </text>
-                    
-                    {/* Frequency indicator */}
-                    <text 
-                      x={padLeft + chartWidth + 15} 
-                      y={row.centerY + 18} 
-                      className="text-xs"
-                      fill="#64748b"
-                      style={{ fontFamily: 'ui-monospace, monospace' }}
-                    >
-                      f ≈ {row.frequency.toExponential(1)}
-                    </text>
-                  </g>
-                ))}
-              </svg>
+              {isAnimating && (
+                <div className="mt-4 space-y-2 max-w-md mx-auto">
+                  <Label className="text-xs font-medium flex justify-between">
+                    <span>Animation Speed</span>
+                    <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
+                      {animationSpeed.toFixed(3)}
+                    </span>
+                  </Label>
+                  <Slider 
+                    value={[animationSpeed]} 
+                    min={0.005} 
+                    max={0.1} 
+                    step={0.005} 
+                    onValueChange={(v) => setAnimationSpeed(v[0])}
+                    className="py-1"
+                  />
+                </div>
+              )}
+              
+              <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border-l-3 border-l-purple-500 max-w-md mx-auto">
+                <p className="text-xs text-slate-300 leading-relaxed text-center">
+                  <span className="font-semibold">Showing 4 frequency pairs</span>.
+                  <span className="font-semibold"> Indices:</span> {selectedPairs.join(", ")}
+                  <span className="font-semibold"> Position:</span> {clampedHighlight}
+                </p>
               </div>
             </CardContent>
           </Card>
-        </div>
-      </main>
+
+            <Card className={`${cardBg} rounded-2xl shadow-2xl border overflow-hidden`}>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg justify-center">
+                  <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+                  Encoding Waves
+                  <div className="ml-auto text-sm font-normal text-purple-300">
+                    Pos {clampedHighlight}
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0 flex justify-center">
+                <div className="overflow-x-auto">
+                <svg 
+                  ref={svgRef} 
+                  width={svgWidth} 
+                  height={svgHeight} 
+                  onMouseMove={handleMouseMove}
+                  className="cursor-crosshair transition-all duration-200 hover:drop-shadow-lg"
+                >
+                  <defs>
+                    {/* Wave gradients */}
+                    <linearGradient id="sin-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor={waveSinStart} />
+                      <stop offset="100%" stopColor={waveSinEnd} />
+                    </linearGradient>
+                    
+                    <linearGradient id="cos-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor={waveCosStart} />
+                      <stop offset="100%" stopColor={waveCosEnd} />
+                    </linearGradient>
+                  </defs>
+
+                  <rect width={svgWidth} height={svgHeight} fill={canvasBg} />
+
+                  {/* Enhanced grid */}
+                  <g opacity="0.6">
+                    {Array.from({ length: rowsCount + 1 }, (_, i) => {
+                      const y = padTop + (i * chartHeight) / rowsCount;
+                      return (
+                        <g key={`h-${i}`}>
+                          <line 
+                            x1={padLeft} 
+                            x2={padLeft + chartWidth} 
+                            y1={y} 
+                            y2={y} 
+                            stroke={i % 2 === 0 ? axisColor : gridColor} 
+                            strokeWidth={i % 2 === 0 ? 1.5 : 1}
+                            opacity={i % 2 === 0 ? 1 : 0.5}
+                          />
+                          {i < rows.length && (
+                            <text 
+                              x={padLeft - 10} 
+                              y={rows[i]?.centerY + 4 || y} 
+                              textAnchor="end" 
+                              fill={textColor} 
+                              fontSize="12"
+                              fontWeight="600"
+                              fontFamily="monospace"
+                            >
+                              {rows[i] ? `${rows[i].valAtHighlight >= 0 ? "+" : ""}${rows[i].valAtHighlight.toFixed(2)}` : ""}
+                            </text>
+                          )}
+                        </g>
+                      );
+                    })}
+                    {Array.from({ length: 9 }, (_, i) => {
+                      const x = padLeft + (i * chartWidth) / 8;
+                      return (
+                        <line 
+                          key={`v-${i}`} 
+                          x1={x} 
+                          x2={x} 
+                          y1={padTop} 
+                          y2={padTop + chartHeight} 
+                          stroke={gridColor} 
+                          strokeWidth={1}
+                          opacity={0.3}
+                        />
+                      );
+                    })}
+                  </g>
+
+                  {/* Highlight line */}
+                  <line
+                    x1={highlightX}
+                    x2={highlightX}
+                    y1={padTop}
+                    y2={padTop + chartHeight}
+                    stroke={highlightLine}
+                    strokeWidth={2.5}
+                    strokeDasharray="6 8"
+                    opacity={0.8}
+                  />
+
+                  {/* Wave paths with gradients */}
+                  {rows.map((row, idx) => (
+                    <g key={idx}>
+                      <path
+                        d={row.path}
+                        fill="none"
+                        stroke={row.kind === "sin" ? "url(#sin-gradient)" : "url(#cos-gradient)"}
+                        strokeWidth={LINE_WIDTH}
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        opacity={0.9}
+                      />
+                      
+                      {/* Static highlight point */}
+                      <circle
+                        cx={highlightX}
+                        cy={row.yAtHighlight}
+                        r={4}
+                        fill={row.kind === "sin" ? waveSinEnd : waveCosEnd}
+                      />
+                      
+                      {/* Enhanced labels */}
+                      <text 
+                        x={padLeft + chartWidth + 15} 
+                        y={row.centerY + 4} 
+                        className="text-xs font-medium"
+                        fill={textColor}
+                        style={{ fontFamily: 'ui-monospace, monospace' }}
+                      >
+                        {row.label}
+                      </text>
+                      
+                      {/* Frequency indicator */}
+                      <text 
+                        x={padLeft + chartWidth + 15} 
+                        y={row.centerY + 18} 
+                        className="text-xs"
+                        fill="#64748b"
+                        style={{ fontFamily: 'ui-monospace, monospace' }}
+                      >
+                        f ≈ {row.frequency.toExponential(1)}
+                      </text>
+                    </g>
+                  ))}
+                </svg>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </main>
+       </div> 
     </div>
   );
 }
