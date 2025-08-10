@@ -170,7 +170,7 @@ export default function PositionalEncodingVisualizer() {
     <div className={`min-h-screen w-full transition-all duration-700 ${bgGradient}`}>
 
       <header className={`${headerBg} shadow-lg`}>
-        <div className="container mx-auto flex justify-between items-center p-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
           <div className="flex gap-3 items-center">
             <div className="p-2 rounded-full bg-purple-500/20 backdrop-blur-sm">
               <Waves className="w-6 h-6 text-purple-400" />
@@ -197,8 +197,9 @@ export default function PositionalEncodingVisualizer() {
         </div>
       </header>
 
-      <main className="p-4 max-w-7xl mx-auto">
-        <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit mb-4`}>
+      <main className="p-4 flex justify-center">
+        <div className="w-full max-w-6xl">
+          <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit mb-4`}>
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-lg justify-center">
               <Settings className="w-4 h-4 text-purple-400" />
@@ -308,18 +309,18 @@ export default function PositionalEncodingVisualizer() {
           </CardContent>
         </Card>
 
-        <Card className={`${cardBg} rounded-2xl shadow-2xl border overflow-hidden`}>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-              Encoding Waves
-              <div className="ml-auto text-sm font-normal text-purple-300">
-                Pos {clampedHighlight}
-              </div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
+          <Card className={`${cardBg} rounded-2xl shadow-2xl border overflow-hidden`}>
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg justify-center">
+                <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+                Encoding Waves
+                <div className="ml-auto text-sm font-normal text-purple-300">
+                  Pos {clampedHighlight}
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0 flex justify-center">
+              <div className="overflow-x-auto">
               <svg 
                 ref={svgRef} 
                 width={svgWidth} 
@@ -447,9 +448,10 @@ export default function PositionalEncodingVisualizer() {
                   </g>
                 ))}
               </svg>
-            </div>
-          </CardContent>
-        </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     </div>
   );
