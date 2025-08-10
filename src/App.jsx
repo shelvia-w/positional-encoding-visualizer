@@ -197,7 +197,7 @@ export default function PositionalEncodingVisualizer() {
               <Waves className="w-6 h-6 text-purple-400" />
             </div>
             <div>
-              <h1 className="text-l font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <h1 className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Sinusoidal Positional Encoding
               </h1>
               <p className="text-xs text-purple-300">
