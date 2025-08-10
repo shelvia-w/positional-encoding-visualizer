@@ -197,86 +197,88 @@ export default function PositionalEncodingVisualizer() {
         </div>
       </header>
 
-      <main className="p-4 grid lg:grid-cols-[320px,1fr] gap-4">
-        <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit`}>
+      <main className="p-4 max-w-7xl mx-auto">
+        <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit mb-4`}>
           <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
+            <CardTitle className="flex items-center gap-2 text-lg justify-center">
               <Settings className="w-4 h-4 text-purple-400" />
               Controls
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-5">
-            <div className="space-y-2">
-              <Label className="text-xs font-medium flex justify-between">
-                <span>Sequence Length</span>
-                <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
-                  {seqLen}
-                </span>
-              </Label>
-              <Slider 
-                value={[seqLen]} 
-                min={8} 
-                max={4096} 
-                step={1} 
-                onValueChange={(v) => setSeqLen(v[0])}
-                className="py-1"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label className="text-xs font-medium flex justify-between">
-                <span>Model Dimension (d)</span>
-                <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
-                  {dModel}
-                </span>
-              </Label>
-              <Slider 
-                value={[dModel]} 
-                min={10} 
-                max={1024} 
-                step={2} 
-                onValueChange={(v) => setDModel(v[0])}
-                className="py-1"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label className="text-xs font-medium flex justify-between">
-                <span>Base Constant</span>
-                <span className="px-2 py-1 rounded text-xs bg-slate-800 text-orange-400 font-mono">
-                  {base.toLocaleString()}
-                </span>
-              </Label>
-              <Slider 
-                value={[base]} 
-                min={10} 
-                max={100000} 
-                step={10} 
-                onValueChange={(v) => setBase(v[0])}
-                className="py-1"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label className="text-xs font-medium flex justify-between">
-                <span>Highlight Position</span>
-                <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
-                  {clampedHighlight}
-                </span>
-              </Label>
-              <Slider 
-                value={[clampedHighlight]} 
-                min={0} 
-                max={seqLen - 1} 
-                step={1} 
-                onValueChange={(v) => !isAnimating && setHighlightPos(v[0])}
-                disabled={isAnimating}
-                className="py-1"
-              />
+          <CardContent>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label className="text-xs font-medium flex justify-between">
+                  <span>Sequence Length</span>
+                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
+                    {seqLen}
+                  </span>
+                </Label>
+                <Slider 
+                  value={[seqLen]} 
+                  min={8} 
+                  max={4096} 
+                  step={1} 
+                  onValueChange={(v) => setSeqLen(v[0])}
+                  className="py-1"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label className="text-xs font-medium flex justify-between">
+                  <span>Model Dimension (d)</span>
+                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
+                    {dModel}
+                  </span>
+                </Label>
+                <Slider 
+                  value={[dModel]} 
+                  min={10} 
+                  max={1024} 
+                  step={2} 
+                  onValueChange={(v) => setDModel(v[0])}
+                  className="py-1"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label className="text-xs font-medium flex justify-between">
+                  <span>Base Constant</span>
+                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-orange-400 font-mono">
+                    {base.toLocaleString()}
+                  </span>
+                </Label>
+                <Slider 
+                  value={[base]} 
+                  min={10} 
+                  max={100000} 
+                  step={10} 
+                  onValueChange={(v) => setBase(v[0])}
+                  className="py-1"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label className="text-xs font-medium flex justify-between">
+                  <span>Highlight Position</span>
+                  <span className="px-2 py-1 rounded text-xs bg-slate-800 text-purple-400 font-mono">
+                    {clampedHighlight}
+                  </span>
+                </Label>
+                <Slider 
+                  value={[clampedHighlight]} 
+                  min={0} 
+                  max={seqLen - 1} 
+                  step={1} 
+                  onValueChange={(v) => !isAnimating && setHighlightPos(v[0])}
+                  disabled={isAnimating}
+                  className="py-1"
+                />
+              </div>
             </div>
 
             {isAnimating && (
-              <div className="space-y-2">
+              <div className="mt-4 space-y-2 max-w-md mx-auto">
                 <Label className="text-xs font-medium flex justify-between">
                   <span>Animation Speed</span>
                   <span className="px-2 py-1 rounded text-xs bg-slate-800 text-pink-400 font-mono">
@@ -294,8 +296,8 @@ export default function PositionalEncodingVisualizer() {
               </div>
             )}
             
-            <div className="p-3 rounded-lg bg-slate-800/50 border-l-3 border-l-purple-500">
-              <p className="text-xs text-slate-300 leading-relaxed">
+            <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border-l-3 border-l-purple-500 max-w-md mx-auto">
+              <p className="text-xs text-slate-300 leading-relaxed text-center">
                 <span className="font-semibold">Showing 4 frequency pairs</span>
                 <br/>
                 <span className="font-semibold">Indices:</span> {selectedPairs.join(", ")}
