@@ -167,21 +167,6 @@ export default function PositionalEncodingVisualizer() {
 
   return (
     <div className={`min-h-screen w-full transition-all duration-700 ${bgGradient}`}>
-      {/* Floating particles effect */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 rounded-full bg-purple-400/20 animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 4}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
-            }}
-          />
-        ))}
-      </div>
 
       <header className={`sticky top-0 z-20 ${headerBg} shadow-lg`}>
         <div className="container mx-auto flex justify-between items-center p-6">
