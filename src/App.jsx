@@ -171,7 +171,7 @@ export default function PositionalEncodingVisualizer() {
       <div className="mx-auto w-full max-w-screen-xl px-4">
 
         <header className={`${headerBg} shadow-lg`}>
-          <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
+          <div className="flex justify-between items-center p-4">
             <div className="flex gap-3 items-center">
               <div className="p-2 rounded-full bg-purple-500/20 backdrop-blur-sm">
                 <Waves className="w-6 h-6 text-purple-400" />
@@ -198,8 +198,8 @@ export default function PositionalEncodingVisualizer() {
           </div>
         </header>
 
-        <main className="p-4 flex justify-center">
-          <div className="w-full max-w-6xl">
+        <main className="p-4">
+          <div className="w-full max-w-6xl mx-auto">
             <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit mb-4`}>
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lg justify-center">
@@ -452,7 +452,7 @@ export default function PositionalEncodingVisualizer() {
             </Card>
           </div>
         </main>
-       </div> 
+      </div>  
     </div>
   );
 }
