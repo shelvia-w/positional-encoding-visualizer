@@ -10,7 +10,6 @@ export default function PositionalEncodingVisualizer() {
   const [dModel, setDModel] = useState(64);
   const [base, setBase] = useState(10000);
   const [highlightPos, setHighlightPos] = useState(149);
-  const darkMode = true;
   const [isAnimating, setIsAnimating] = useState(false);
   const [animationSpeed, setAnimationSpeed] = useState(0.02);
   const animationRef = useRef(null);
@@ -168,16 +167,16 @@ export default function PositionalEncodingVisualizer() {
 
   return (
     <div className={`min-h-screen w-full transition-all duration-700 ${bgGradient}`}>
-      <div className="mx-auto w-full max-w-screen-xl px-4">
+      <div className="mx-auto w-full max-w-5xl px-4">
 
-        <header className={`${headerBg} shadow-lg`}>
-          <div className="flex justify-between items-center p-4">
+        <header className={`${headerBg} shadow-lg rounded-t-2xl`}>
+          <div className="flex justify-between items-center p-4 overflow-visible">
             <div className="flex gap-3 items-center">
               <div className="p-2 rounded-full bg-purple-500/20 backdrop-blur-sm">
                 <Waves className="w-6 h-6 text-purple-400" />
               </div>
               <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <h1 className="text-xl leading-[1.2] font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                   Sinusoidal Positional Encoding
                 </h1>
                 <p className="text-xs text-purple-300">
@@ -199,7 +198,7 @@ export default function PositionalEncodingVisualizer() {
         </header>
 
         <main className="p-4">
-          <div className="w-full max-w-6xl mx-auto">
+          <div className="w-full">
             <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit mb-4`}>
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lg justify-center">
