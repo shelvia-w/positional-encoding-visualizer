@@ -167,8 +167,7 @@ export default function PositionalEncodingVisualizer() {
   const highlightLine = "#a855f7";
 
   return (
-    <div className={`min-h-screen w-full transition-all duration-700 ${bgGradient}`}>
-
+    <div className={`h-screen w-screen transition-all duration-700 ${bgGradient}`}>
       <header className={`${headerBg} shadow-lg`}>
         <div className="container mx-auto flex justify-between items-center p-4">
           <div className="flex gap-3 items-center">
@@ -197,8 +196,8 @@ export default function PositionalEncodingVisualizer() {
         </div>
       </header>
 
-      <main className="p-4 max-w-7xl mx-auto">
-        <Card className={`${cardBg} rounded-2xl shadow-2xl border h-fit mb-4`}>
+      <main className="h-[calc(100vh-64px)] w-full flex flex-col">
+        <Card className={`${cardBg} rounded-2xl shadow-2xl border overflow-hidden flex-1`}>
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-lg justify-center">
               <Settings className="w-4 h-4 text-purple-400" />
@@ -316,14 +315,13 @@ export default function PositionalEncodingVisualizer() {
               </div>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
+          <CardContent className="p-0 flex-1">
+            <div className="flex-1 overflow-auto">
               <svg 
-                ref={svgRef} 
-                width={svgWidth} 
-                height={svgHeight} 
+                ref={svgRef}
+                viewBox={`0 0 ${svgWidth} ${svgHeight}`} 
                 onMouseMove={handleMouseMove}
-                className="cursor-crosshair transition-all duration-200 hover:drop-shadow-lg"
+                className="w-full h-full cursor-crosshair transition-all duration-200 hover:drop-shadow-lg"
               >
                 <defs>
                   {/* Wave gradients */}
