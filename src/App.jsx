@@ -349,7 +349,7 @@ export default function PositionalEncodingVisualizer() {
                       {row.label}
                     </text>
                     <text x={padLeft + chartWidth + 25} y={row.centerY + 15} fill="#94a3b8" fontSize={labelFontSize} style={{ fontFamily: "ui-monospace, monospace" }}>
-                      f ≈ {row.frequency.toExponential(1)}
+                      f ≈ {row.frequency.toExponential(3)}
                     </text>
                   </g>
                 ))}
