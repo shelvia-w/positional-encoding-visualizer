@@ -11,5 +11,5 @@ An interactive web app to **visualize sinusoidal positional encodings** used in 
   - Sequence length (`L`)
   - Embedding dimension (`d`)
   - Positional encoding base constant (`C`)
-  - Highlighting a specific position
+  - Highlighting a specific position (`pos`)
 - **Real-time updates** as parameters change
