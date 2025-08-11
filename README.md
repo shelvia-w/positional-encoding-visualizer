@@ -2,7 +2,7 @@
 
 **Live Demo**: [https://shelvia-w.github.io/positional-encoding-visualizer/](https://shelvia-w.github.io/positional-encoding-visualizer/)
 
-An interactive web app to **visualize sinusoidal positional encodings** used in Transformer models (e.g., in the original [*Attention Is All You Need*](https://arxiv.org/pdf/1706.03762) paper).  Built with **React** and **TailwindCSS**, this tool lets you explore how positional encodings vary with sequence length, embedding dimension, and other parameters.
+An interactive web app to **visualize sinusoidal positional encodings** used in Transformer models (e.g., in the original [*Attention Is All You Need*](https://arxiv.org/pdf/1706.03762) paper). Play around with the parameters to build intuition about how different settings affect the encoding patterns. Built with **React** and **TailwindCSS**, this tool lets you explore how positional encodings vary with sequence length, embedding dimension, and other parameters.
 
 ---
 
