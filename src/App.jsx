@@ -168,7 +168,7 @@ export default function PositionalEncodingVisualizer() {
                 className="font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight"
                 style={{ fontSize: "24px", lineHeight: "1.4" }}
               >
-                Sinusoidal Positional Encoding
+                Sinusoidal Positional Encoding Visualizer
               </h1>
               <p className="text-purple-300 leading-relaxed" style={{ fontSize: "14px", lineHeight: "1.3" }}>
                 Interactive visualization of transformer position embeddings
