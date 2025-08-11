@@ -1,12 +1,16 @@
-# React + Vite
+# Sinusoidal Positional Encoding Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Demo**: [https://shelvia-w.github.io/positional-encoding-visualizer/](https://shelvia-w.github.io/positional-encoding-visualizer/)
 
-Currently, two official plugins are available:
+An interactive web app to **visualize sinusoidal positional encodings** used in Transformer models (e.g., in the original [*Attention Is All You Need*](https://arxiv.org/pdf/1706.03762) paper).  
+Built with **React** and **TailwindCSS**, this tool lets you explore how positional encodings vary with sequence length, embedding dimension, and other parameters.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ✨ Features
+- 🎨 **Interactive controls** for:
+  - Sequence length (`L`)
+  - Embedding dimension (`d`)
+  - Positional encoding base constant (`C`)
+  - Highlighting a specific position
+- **Real-time updates** as parameters change
